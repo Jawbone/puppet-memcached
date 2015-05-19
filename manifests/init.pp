@@ -44,6 +44,7 @@ class memcached (
 
   package { $memcached::params::package_name:
     ensure => $package_ensure,
+    require => File[$memcached::params::config_file]
   }
 
   if $install_dev {
@@ -78,7 +79,6 @@ class memcached (
     group   => 'root',
     mode    => '0644',
     content => template($memcached::params::config_tmpl),
-    require => Package[$memcached::params::package_name],
     notify  => $service_notify_real,
   }
 
